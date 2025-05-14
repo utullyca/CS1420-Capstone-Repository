@@ -73,7 +73,7 @@ def generate_data(section, encoder, device):
         print(f"Generating soft prompt")
         with torch.no_grad():
             soft_prompt = mlpc(embedding)
-            soft_prompt = soft_prompt.half()
+            soft_prompt = soft_prompt.half() # need to half precision bc mlps were trained in full precision but model is loaded with less
         print(f"Generating output with frozen_mistral")
         output = frozen_mistral.generate(soft_prompt, section, input_text=input_text)
         
