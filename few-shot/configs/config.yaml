@@ -1,0 +1,36 @@
+model:
+  name: "mistralai/Mistral-7B-Instruct-v0.3"
+  dtype: "float32"
+  device_map: "auto"
+  trust_remote_code: true
+  use_auth_token: true
+
+generation:
+  max_new_tokens: 450 
+  temperature: 0.3 
+  repetition_penalty: 1.15 
+  typical_p: 0.95 
+  do_sample: true
+  pad_token_id: 2
+  eos_token_id: 2
+  
+data:
+  evaluation:
+    issue_statements: "data/evals/1_issue_evals"
+    rule_statements: "data/evals/2_rule_evals"
+    case_comparisons: "data/evals/3_cc_evals"
+    rule_applications: "data/evals/4_ra_evals"
+    writing_eval: "data/evals/5_writing_eval"
+  validation:
+    issue_statements: "data/validation/1_issue_statements"
+    rule_statements: "data/validation/2_rule_statements"
+    case_comparisons: "data/validation/3_case_comparisons"
+    rule_applications: "data/validation/4_rule_applications"
+    writing_eval: "data/validation/5_writing_validation"
+
+prompts:
+  issue_statements: "instructs/1_issue.txt"
+  rule_statements: "instructs/2_rule.txt"
+  case_comparisons: "instructs/3_case_comp.txt"
+  rule_applications: "instructs/4_rule_app.txt"
+  writing_eval: "instructs/5_writing.txt"

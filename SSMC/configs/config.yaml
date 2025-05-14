@@ -1,0 +1,49 @@
+model:
+  name: "mistralai/Mistral-7B-Instruct-v0.3"
+  dtype: "float16"
+  device_map: "auto"
+  trust_remote_code: true
+  use_auth_token: false
+
+generation:
+  max_new_tokens:
+    issue_statements: 25 # single sentence
+    rule_statements: 100 # short paragraph
+    rule_applications: 450 # multiple paragraphs with case analysis
+  temperature: 0.3
+  repetition_penalty: 1.15
+  typical_p: 0.95
+  do_sample: true
+  pad_token_id: 2
+  eos_token_id: 2
+
+softsrv:
+  mlpc:
+    input_dim: 768 # bert input dimension
+    hidden_dim: 2432 # (4096 - 768) / 2 + 768 smooth progression through 3 layers 768 -> 2432 -> 4096
+    output_dim: 4096 # mistral output dimension
+    learning_rate: 5e-6 # from paper
+    training_steps: 10000 # 20000 in paper
+    mlps: 64 # 128 in paper
+    # essentially running half params for half epochs, still seems to reach convergence (I think, it gets to like 0 training error and then there are no noticeable changes really)
+
+data:
+  root:
+    issue_statements: "data/root/1_issue_statements/"
+    rule_statements: "data/root/2_rule_statements/"
+    case_comparisons: "data/root/3_case_comparisons/"
+    rule_applications: "data/root/4_rule_applications/"
+  train:
+    issue_statements: "data/train/1_issue_statements/"
+    rule_statements: "data/train/2_rule_statements/"
+    case_comparisons: "data/train/3_case_comparisons/"
+    rule_applications: "data/train/4_rule_applications/"
+  validation:
+    issue_statements: "data/validation/1_issue_statements/"
+    rule_statements: "data/validation/2_rule_statements/"
+    case_comparisons: "data/validation/3_case_comparisons/"
+    rule_applications: "data/validation/4_rule_applications/"
+
+split:
+  validation_num: 6 # 24 train - 6 test ... Will add at least one new batch of SoftSRV generated data (10 per) next split is 32 - 8 to maintain 80 - 20
+  seed: 44 # could change the random seed each iter

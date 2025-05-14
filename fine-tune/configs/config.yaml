@@ -1,0 +1,44 @@
+model:
+  name: "mistralai/Mistral-7B-Instruct-v0.3"
+  dtype: "float16" 
+  device_map: "auto"
+  trust_remote_code: true
+  use_auth_token: false
+
+lora: 
+  r: 8
+  lora_alpha: 16
+  lora_dropout: 0.1
+  target_modules: ["q_proj", "k_proj", "v_proj", "o_proj"]
+  bias: "none"
+  task_type: "CAUSAL_LM"
+
+training:
+  learning_rate: 1e-4          
+  num_train_epochs: 100         
+  per_device_train_batch_size: 1  
+  weight_decay: 0.01           
+
+generation:  
+  max_new_tokens: 250
+  temperature: 0.3
+  repetition_penalty: 1.15
+  typical_p: 0.95
+  do_sample: true
+  pad_token_id: 2
+  eos_token_id: 2
+
+data:
+  evals: 
+    issue_statements: "data/evals/1_issue_statements/"
+    rule_statements: "data/evals/2_rule_statements/"
+    case_comparisons: "data/evals/3_case_comparisons/"
+    rule_applications: "data/evals/4_rule_applications/"
+    writing: "data/evals/5_writing/"
+
+  validation:
+    issue_statements: "data/validation/1_issue_statements/"
+    rule_statements: "data/validation/2_rule_statements/"
+    case_comparisons: "data/validation/3_case_comparisons/"
+    rule_applications: "data/validation/4_rule_applications/"
+    writing: "data/validation/5_writing/"

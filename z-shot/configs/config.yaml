@@ -1,0 +1,28 @@
+model:
+  name: "mistralai/Mistral-7B-Instruct-v0.3"
+  dtype: "float32"
+  device_map: "auto"
+  trust_remote_code: true
+  use_auth_token: false
+
+generation:
+  max_new_tokens: 200 
+  temperature: 0.3 
+  repetition_penalty: 1.15 
+  typical_p: 0.95 
+  do_sample: true
+  pad_token_id: 2
+  eos_token_id: 2
+
+prompts:
+  issue_prompt_template: "ZeroShot/instructs/1_issue.txt"
+  rule_prompt_template: "ZeroShot/instructs/2_rule.txt"
+  case_comparison_prompt_template: "ZeroShot/instructs/3_case_comp.txt"
+  rule_application_prompt_template: "ZeroShot/instructs/4_rule_app.txt"
+  output_dir: "ZeroShot/outputs"
+
+data:
+  issue_statements: "ZeroShot/data/1_issue_statements/"
+  rule_statements: "ZeroShot/data/2_rule_statements/"
+  case_comparisons: "ZeroShot/data/3_case_comparisons/"
+  rule_applications: "ZeroShot/data/4_rule_applications/"
