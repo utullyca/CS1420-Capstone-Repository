@@ -119,7 +119,7 @@ def train(model, tokenizer, train_data, optimizer, section, epoch, num_epochs):
     '''
     model.train()
     loss = 0
-    # tqdm is pretty fun to state at
+    # tqdm is pretty fun to stare at
     for i in tqdm(range(len(train_data)), desc=f"Epoch {epoch+1}/{num_epochs}"):
         example = train_data[i] # gets current example to train on
         
